@@ -5,8 +5,10 @@ import compression from "compression";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import corsOptions from "./config/cors/corsOptions";
+import { errorHandler } from "./middlewares/errorHandler";
 import { engine } from "express-handlebars";
 import path from "path";
+import clientTypeMiddleware from "./middlewares/clientType";
 
 const app: Express = express();
 
@@ -43,8 +45,12 @@ app.get("/", (_req, res) => {
   });
 });
 
+// Adds the client type in all api routes
+app.use(clientTypeMiddleware);
+
 // API Routes
 
 // Error Handler
+app.use(errorHandler);
 
 export default app;
